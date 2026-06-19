@@ -213,6 +213,12 @@ void UART_gotoXY(uint8_t com, uint8_t x, uint8_t y){
 
     UART_puts(com, buffer);
 }
+void UART_showCursor(uint8_t com){
+    UART_puts(com, "\033[?25h");
+}
+void UART_hideCursor(uint8_t com){
+    UART_puts(com, "\033[?25l");
+}
 
 void itoa(uint16_t number, char *str, uint8_t base){
     if (!str)

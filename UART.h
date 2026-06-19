@@ -35,6 +35,8 @@ void UART_setColorFont(uint8_t com, uint8_t color);
 void UART_setColorBackground(uint8_t com, uint8_t color);
 void UART_gotoXY(uint8_t com, uint8_t x, uint8_t y);
 void UART_resetColors(uint8_t com);
+void UART_hideCursor(uint8_t com);
+void UART_showCursor(uint8_t com);
 
 void itoa(uint16_t number, char *str, uint8_t base);
 uint16_t atoi(char *str);
