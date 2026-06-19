@@ -1,5 +1,6 @@
 #include "gameUtils.h"
 #include "UART.h"
+#include "global.h"
 #include <stdint.h>
 
 uint8_t xStart = 6;
@@ -58,15 +59,33 @@ void drawScore(uint16_t score){
 
 void drawBoard(uint16_t board[HEIGHT][WIDTH]){
     uint8_t yStartCopy = yStart;
+    volatile int8_t px, py, bitPos, painted = FALSE;
+    uint16_t msk;
+
     UART_gotoXY(0, xStart, yStartCopy);
     for(uint8_t i = 0; i < HEIGHT; i++){
+        py = i - playerState.y;
         for(uint8_t j = 0; j < WIDTH; j++){
-            if(board[i][j] > 0){
-                UART_setColorBackground(0, BLUE);
-                UART_puts(0, "  ");
-            }else{
-                UART_setColorBackground(0, CLEAR);
-                UART_puts(0, "  ");
+            px = j - playerState.x;
+            painted = FALSE;
+            if((px >= 0 && px <= 3) && 
+               (py >= 0 && py <= 3)){
+                bitPos = 15 - (py * 4 + px);
+                msk = (1 << bitPos);
+                if(playerState.currentPiece & msk){
+                    UART_setColorBackground(0, RED);
+                    UART_puts(0, "  ");
+                    painted = TRUE;
+                }
+            }
+            if(!painted){
+                if(board[i][j] > 0){
+                    UART_setColorBackground(0, BLUE);
+                    UART_puts(0, "  ");
+                }else{
+                    UART_setColorBackground(0, CLEAR);
+                    UART_puts(0, "  ");
+                }
             }
         }
         UART_gotoXY(0, xStart, ++yStartCopy);

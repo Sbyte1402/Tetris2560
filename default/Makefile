@@ -37,7 +37,7 @@ HEX_EEPROM_FLAGS += --change-section-lma .eeprom=0 --no-change-warnings
 
 
 ## Objects that must be built in order to link
-OBJECTS = Tetris2560.o UART.o gameUtils.o 
+OBJECTS = Tetris2560.o UART.o gameUtils.o global.o 
 
 ## Objects explicitly added by the user
 LINKONLYOBJECTS = 
@@ -51,6 +51,9 @@ UART.o: ../UART.c
 	$(CC) $(INCLUDES) $(CFLAGS) -c  $<
 
 gameUtils.o: ../gameUtils.c
+	$(CC) $(INCLUDES) $(CFLAGS) -c  $<
+
+global.o: ../global.c
 	$(CC) $(INCLUDES) $(CFLAGS) -c  $<
 
 ##Link
